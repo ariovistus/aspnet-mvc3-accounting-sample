@@ -74,21 +74,21 @@ namespace Accounting.Areas.Accounting.Models
         public DbSet<Income> Incomes { get; set; }
         public DbSet<IncomeType> IncomeTypes { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExpenseType>().Property(e => e.Description).IsRequired();
             modelBuilder.Entity<IncomeType>().Property(i => i.Description).IsRequired();
-            modelBuilder.Entity<Expense>().MapSingleType().ToTable("Expenses");
-            modelBuilder.Entity<ExpenseType>().MapSingleType().ToTable("ExpenseTypes");
-            modelBuilder.Entity<Income>().MapSingleType().ToTable("Incomes");
-            modelBuilder.Entity<IncomeType>().MapSingleType().ToTable("IncomeTypes");
+            modelBuilder.Entity<Expense>().ToTable("Expenses");
+            modelBuilder.Entity<ExpenseType>().ToTable("ExpenseTypes");
+            modelBuilder.Entity<Income>().ToTable("Incomes");
+            modelBuilder.Entity<IncomeType>().ToTable("IncomeTypes");
 
             modelBuilder.Entity<Expense>().HasRequired(e => e.ExpenseType).WithMany(e => e.Expenses);
             modelBuilder.Entity<Income>().HasRequired(i => i.IncomeType).WithMany(i => i.Incomes);
-
         }
     }
 
+    /*
     public class AccountingInitializer : RecreateDatabaseIfModelChanges<AccountingContext>
     {
         protected override void Seed(AccountingContext context)
@@ -116,6 +116,7 @@ namespace Accounting.Areas.Accounting.Models
 
         }
     }
+    */
 
 
 }
